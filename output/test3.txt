@@ -1,0 +1,5 @@
+Пример работы заменой регулярными выражениями.
+Числа: eng: "test_digit" eng: "test_digit" eng: "test_digit" eng: "test_digit"
+Таблицы: eng: "test_tabl" eng: "test_tabl"
+Рисунки: eng: "test_figur" eng: "test_figur"
+eng: "testin" eng: "ne" eng: "regex"
