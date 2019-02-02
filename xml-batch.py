@@ -54,6 +54,7 @@ def find_and_replace(filename, regexps, log):
         write_output_file(filename, content)
         # log.put(log_info)
         log.put_table(filename, r_list)
+        log.put_html(filename, r_list)
     except FileNotFoundError:
         print("No " + filename + " file found! Aborting.")
     except Exception as e:
@@ -63,7 +64,10 @@ def find_and_replace(filename, regexps, log):
 class LogObj():
     def __init__(self):
         self.data = ""
+
         self.output_file = OUTPUT_DIR + "log.md"
+        self.output_html = OUTPUT_DIR + "log.html"
+        self.data_html = ""
 
     def put(self, data):
         self.data += data
@@ -78,6 +82,30 @@ class LogObj():
             self.data += "| " + item[0] + " | " + item[1] + " | " + item[2] + " |\n"
         self.data += "\n"
 
+    def put_html(self, filename, rlist):
+        self.data_html += "<!DOCTYPE html><html>\n"
+
+        self.data_html += "<head><style>\n"
+        self.data_html += "h1 {color: blue; font: bold 30px Arial, serif;}\n"
+        self.data_html += "table, th, td {border: 1px solid grey;}\n"
+        self.data_html += "th {text-align: left; font: bold 12px Arial, serif;}\n"
+        self.data_html += "td {text-align: left; font: 12px Arial, serif;}\n"
+        self.data_html += "</style></head>\n"
+
+        self.data_html += "<body>\n"
+        self.data_html += "<h1>" + filename + "</h1>\n"
+        self.data_html += "\n"
+        self.data_html += '<table style="width:50%">\n'
+        self.data_html += "<tr>\n"
+        self.data_html += "<th>Find</th><th>Replace</th><th>Total</th>"
+        self.data_html += "</tr>\n"
+        for item in rlist:
+            self.data_html += "<tr>\n"
+            self.data_html += "<td>" + item[0] + "</td>" + "<td>" + item[1] + "</td>""<td>" + item[2] + "</td>"
+            self.data_html += "</tr>\n"
+        self.data_html += '</table>\n'
+        self.data_html += '</body></html>'
+
     def write(self):
         try:
             with open(self.output_file, 'w') as f:
@@ -85,6 +113,15 @@ class LogObj():
         except Exception as e:
             print('An error occurred while writing a log:')
             print(e)
+
+    def write_html(self):
+        try:
+            with open(self.output_html, 'w') as f:
+                f.write(self.data_html)
+        except Exception as e:
+            print('An error occurred while writing a log:')
+            print(e)
+
 
 # Поиск в файле
 # def find_in_file(filename):
@@ -134,6 +171,7 @@ def main(regexps):
         print("No files found (check extension)")
     else:
         log.write()
+        log.write_html()
         print("\n")
         print(str(k) + " files processed.")
 
