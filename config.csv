@@ -1,0 +1,4 @@
+Find,Replace
+Table\s[^\s]*,test_table
+Figure\s[^\s]*,test_figure
+[0-9]+[^\s]*,test_digits
