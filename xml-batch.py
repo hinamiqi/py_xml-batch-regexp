@@ -40,19 +40,19 @@ def find_and_replace(filename, regexps, log):
         f = open(filename, 'r')
         log_info = ""
         if f.mode == 'r': # важно открывать файл только для чтения
-            log_info += "# " + filename + "\n"
+            # log_info += "# " + filename + "\n"
             r_list = []
             content = f.read()
             expcounter = 1
             for exp in regexps:
                 content, N = re.subn(exp["Find"], exp["Replace"], content)
-                log_info += str(expcounter) + ". " + exp["Find"] + " -> " + exp["Replace"] + " | " + str(N) + "\n"
+                # log_info += str(expcounter) + ". " + exp["Find"] + " -> " + exp["Replace"] + " | " + str(N) + "\n"
                 r_list.append((exp["Find"], exp["Replace"], str(N)))
                 expcounter += 1
             f.close()
             print("Done.")
         write_output_file(filename, content)
-        log.put(log_info)
+        # log.put(log_info)
         log.put_table(filename, r_list)
     except FileNotFoundError:
         print("No " + filename + " file found! Aborting.")
@@ -70,7 +70,7 @@ class LogObj():
         self.data += "\n"
 
     def put_table(self, filename, rlist):
-        self.data += "# " + "filename"
+        self.data += "# " + filename
         self.data += "\n"
         self.data += "|Find           |Replace        |Total|\n"
         self.data += "|---------------|---------------|-----|\n"
